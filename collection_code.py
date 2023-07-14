@@ -81,9 +81,7 @@ def main():
 
     date1 = st.sidebar.date_input("Select a date")
 
-    # Load checkbox states from file
-    with open("checkbox_states.pkl", "rb") as f:
-        checkbox_states = pickle.load(f)
+    
 
     result = getmoney(date1, checkbox_states)
     st.write(result)
@@ -93,7 +91,11 @@ def main():
         key = f"{row['Supervisor']}_{row['Date'].date()}"
         received = st.checkbox(f"Have you received the money from: {row['Supervisor']}?", value=checkbox_states.get(key, False))
         checkbox_states[key] = received
-
+        
+    # Load checkbox states from file
+    with open("checkbox_states.pkl", "rb") as f:
+        checkbox_states = pickle.load(f)
+        
     # Save checkbox states to file
     with open("checkbox_states.pkl", "wb") as f:
         pickle.dump(checkbox_states, f)
