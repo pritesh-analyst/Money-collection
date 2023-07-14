@@ -84,6 +84,14 @@ def main():
     result = getmoney(date1, checkbox_states)
     st.write(result)
 
+     # Update checkbox states based on user input
+    for index, row in result.iterrows():
+        key = f"{row['Supervisor']}_{row['Date'].date()}"
+        received = st.checkbox(f"Have you received the money from: {row['Supervisor']}?", value=checkbox_states.get(key, False))
+        checkbox_states[key] = received
+
+
+
 
 if __name__ == '__main__':
     main()
