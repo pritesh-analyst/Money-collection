@@ -41,7 +41,7 @@ def getmoney(date1, checkbox_states):
     data['Date'] = pd.to_datetime(data['Timestamp'].dt.date)
     filtered_data = data[data['Date'] == pd.Timestamp(date1)]
 
-    dict_for_money = {'Date': [], 'Cash': [], 'Online': [], 'Cash and online': [], 'Supervisor': [], 'Parking': [], 'Pick_and_drop': []}
+    dict_for_money = {'Date': [], 'Cash': [], 'Online': [], 'Cash and online': [], 'Parking': [], 'Pick_and_drop': [], 'Supervisor': []}
 
     dates = filtered_data['Date'].unique()
 
