@@ -91,13 +91,13 @@ def main():
         pass
 
     result = getmoney(date1, checkbox_states)
-    # st.write(result)
+    st.write(result)
 
     # Update checkbox states based on user input
-    for index, row in result.iterrows():
-        key = f"{row['Supervisor']}_{row['Date'].date()}"
-        received = st.checkbox(f"Have you received the money from: {row['Supervisor']}?", value=checkbox_states.get(key, False))
-        checkbox_states[key] = received
+    # for index, row in result.iterrows():
+    #     key = f"{row['Supervisor']}_{row['Date'].date()}"
+    #     received = st.checkbox(f"Have you received the money from: {row['Supervisor']}?", value=checkbox_states.get(key, False))
+    #     checkbox_states[key] = received
 
     # Save checkbox states to file
     with open("checkbox_states.pkl", "wb") as f:
