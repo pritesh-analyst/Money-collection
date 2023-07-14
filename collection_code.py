@@ -77,6 +77,7 @@ def getmoney(date1, checkbox_states):
 
 
 def main():
+    st.set_page_config(page_title="Model for Money collection", layout="wide")
     st.title('Money Collection Dashboard')
 
     date1 = st.sidebar.date_input("Select a date")
