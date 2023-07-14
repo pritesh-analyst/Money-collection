@@ -81,11 +81,14 @@ def main():
 
     date1 = st.sidebar.date_input("Select a date")
 
-    checkbox_states = {}
+    checkbox_states = {}  # Initialize checkbox_states as an empty dictionary
 
-    # Load checkbox states from file
-    with open("checkbox_states.pkl", "rb") as f:
-        checkbox_states = pickle.load(f)
+    try:
+        # Load checkbox states from file if it exists
+        with open("checkbox_states.pkl", "rb") as f:
+            checkbox_states = pickle.load(f)
+    except (FileNotFoundError, pickle.UnpicklingError):
+        pass
 
     result = getmoney(date1, checkbox_states)
     st.write(result)
