@@ -76,19 +76,17 @@ def getmoney(date1, checkbox_states):
 
 
 def main():
-    st.set_page_config(page_title="Model for Money collection", layout="wide")
     st.title('Money Collection Dashboard')
 
     date1 = st.sidebar.date_input("Select a date")
-    checkbox_states = st.session_state.setdefault('checkbox_states', {})
-    result = getmoney(date1, checkbox_states)
-    st.write(result)
 
-     # Update checkbox states based on user input
-    for index, row in result.iterrows():
-        key = f"{row['Supervisor']}_{row['Date'].date()}"
-        received = st.checkbox(f"Have you received the money from: {row['Supervisor']}?", value=checkbox_states.get(key, False))
-        checkbox_states[key] = received
+    # Use streamlit_shelve to store checkbox states
+    with streamlit_shelve.st_shelve() as db:
+        checkbox_states = db.get('checkbox_states', {})
+        result = getmoney(date1, checkbox_states)
+        st.write(result)
+        db['checkbox_states'] = checkbox_states
+  
 
 
 
