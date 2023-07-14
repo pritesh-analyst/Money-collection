@@ -91,7 +91,7 @@ def main():
         pass
 
     result = getmoney(date1, checkbox_states)
-    st.write(result)
+    # st.write(result)
 
     # Update checkbox states based on user input
     for index, row in result.iterrows():
