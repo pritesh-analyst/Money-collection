@@ -1,7 +1,7 @@
 
 import pandas as pd
 import streamlit as st
-import streamlit_shelve
+import pickle
 
 def getmoney(date1, checkbox_states):
     sheet_id = "1NikKhqY7u3AGsm9Fpk9UaqNFyzmyojuz8-iqUGh295g"
@@ -81,16 +81,22 @@ def main():
 
     date1 = st.sidebar.date_input("Select a date")
 
-    # Use streamlit_shelve to store checkbox states
-    with streamlit_shelve.st_shelve() as db:
-        checkbox_states = db.get('checkbox_states', {})
-        result = getmoney(date1, checkbox_states)
-        st.write(result)
-        db['checkbox_states'] = checkbox_states
-  
+    # Load checkbox states from file
+    with open("checkbox_states.pkl", "rb") as f:
+        checkbox_states = pickle.load(f)
 
+    result = getmoney(date1, checkbox_states)
+    st.write(result)
 
+    # Update checkbox states based on user input
+    for index, row in result.iterrows():
+        key = f"{row['Supervisor']}_{row['Date'].date()}"
+        received = st.checkbox(f"Have you received the money from: {row['Supervisor']}?", value=checkbox_states.get(key, False))
+        checkbox_states[key] = received
 
+    # Save checkbox states to file
+    with open("checkbox_states.pkl", "wb") as f:
+        pickle.dump(checkbox_states, f)
 
 if __name__ == '__main__':
     main()
