@@ -18,6 +18,7 @@ def getmoney(date1, checkbox_states):
     df['Amount '] = pd.to_numeric(df['Amount '])
     df['Parking amount ?'] = pd.to_numeric(df['Parking amount ?'])
     df['Pick and drop amount ?'] = pd.to_numeric(df['Pick and drop amount ?'])
+    df['Penalty Amount '] = pd.to_numeric(df['Penalty Amount '])
 
     data = pd.DataFrame({
         'Timestamp': df['Timestamp'],
@@ -41,7 +42,7 @@ def getmoney(date1, checkbox_states):
     data['Date'] = pd.to_datetime(data['Timestamp'].dt.date)
     filtered_data = data[data['Date'] == pd.Timestamp(date1)]
 
-    dict_for_money = {'Date': [], 'Cash': [], 'Online': [], 'Cash and online': [], 'Parking': [], 'Pick_and_drop': [], 'Supervisor': []}
+    dict_for_money = {'Date': [], 'Cash': [], 'Online': [], 'Cash and online': [],'Penalty':[], 'Parking': [], 'Pick_and_drop': [], 'Supervisor': []}
 
     dates = filtered_data['Date'].unique()
 
@@ -59,6 +60,7 @@ def getmoney(date1, checkbox_states):
             dict_for_money['Cash and online'].append(cash_and_online.loc[cash_and_online['Supervisor'] == supervisor, 'Amount'].sum())
             dict_for_money['Parking'].append(filtered_data.loc[(filtered_data['Date'] == date) & (filtered_data['Supervisor'] == supervisor), 'Parking'].sum())
             dict_for_money['Pick_and_drop'].append(filtered_data.loc[(filtered_data['Date'] == date) & (filtered_data['Supervisor'] == supervisor), 'Pick_and_drop'].sum())
+            dict_for_money['Penalty'].append(filtered_data.loc[(filtered_data['Date'] == date) & (filtered_data['Supervisor'] == supervisor), 'Penalty_amt'].sum())
             dict_for_money['Supervisor'].append(supervisor)
 
     money_collection = pd.DataFrame(dict_for_money).drop_duplicates().reset_index(drop=True)
@@ -71,7 +73,7 @@ def getmoney(date1, checkbox_states):
         if received:
             money_collection.at[index, 'Received'] = True
 
-    money_collection['Total'] = money_collection['Cash'] + money_collection['Online'] + money_collection['Cash and online'] + money_collection['Parking'] + money_collection['Pick_and_drop']
+    money_collection['Total'] = money_collection['Cash'] + money_collection['Online'] + money_collection['Cash and online'] + money_collection['Parking'] + money_collection['Pick_and_drop']  + money_collection['Penalty']
 
     return money_collection
 
