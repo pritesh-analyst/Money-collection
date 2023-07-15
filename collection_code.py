@@ -49,7 +49,7 @@ def getmoney(date1, checkbox_states):
     for date in dates:
         cash = filtered_data.loc[(filtered_data['Mode of payment'] == 'Cash') & (filtered_data['Date'] == date)]
         online = filtered_data.loc[(filtered_data['Mode of payment'] == 'Bharat pe') & (filtered_data['Date'] == date)]
-        cash_and_online = filtered_data.loc[(filtered_data['Mode of payment'] == 'Cash + Bharat pe') & (filtered_data['Date'] == date)]
+        cash_and_online = filtered_data.loc[(filtered_data['Mode of payment'] == 'Cash + Baharat pe') & (filtered_data['Date'] == date)]
 
         supervisors = filtered_data.loc[filtered_data['Date'] == date, 'Supervisor']
 
